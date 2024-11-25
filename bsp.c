@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "ballsortpuzzle.h"
 #include <time.h>
 #include <stdbool.h>
 #include <ncurses.h>
@@ -13,7 +12,6 @@ void generator(const int rows, const int columns, char field[rows][columns])
             field[i][j] = ' ';
         }
     }
-
     const char symbols[] = {'@', '*', '^', '+'};
     const int symbol_count = sizeof(symbols) / sizeof(symbols[0]);
     int filled_columns = columns - 2;
