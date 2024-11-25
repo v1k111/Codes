@@ -463,7 +463,6 @@ void game()
     getch();
     end_ncurses();
 }
-
 int main()
 {
     game();
