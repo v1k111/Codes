@@ -12,8 +12,9 @@ void generator(const int rows, const int columns, char field[rows][columns])
             field[i][j] = ' ';
         }
     }
-    const char symbols[] = {'@', '*', '^', '+', '>', '<', '&'};
+    char symbols[] = {'@', '*', '^', '+', '>', '<', '&'};
     const int symbol_count = columns - 2;
+    symbols[symbol_count] = '\0';
     int filled_columns = columns - 2;
     int used_columns[columns];
     for (int j = 0; j < filled_columns; j++)
@@ -89,19 +90,6 @@ void game_field(const int rows, const int columns, char field[rows][columns])
 {
     clear();
     start_color();
-    init_color(1, 1000, 0, 0);
-    init_color(2, 0, 1000, 0);
-    init_color(3, 0, 0, 1000);
-    init_color(4, 1000, 500, 0);
-    init_color(5, 500, 0, 1000);
-    init_color(6, 0, 1000, 1000);
-    init_color(8, 500, 500, 500);
-
-    for (int i = 1; i <= 6; i++)
-    {
-        init_pair(i, i, COLOR_BLACK);
-    }
-    init_pair(7, 8, COLOR_BLACK);
 
     for (int i = 0; i < rows; ++i)
     {
@@ -110,23 +98,8 @@ void game_field(const int rows, const int columns, char field[rows][columns])
         for (int j = 0; j < columns; ++j)
         {
             printw("|");
-            attroff(COLOR_PAIR(11));
-            if (field[i][j] == '@')
-                attron(COLOR_PAIR(1));
-            else if (field[i][j] == '*')
-                attron(COLOR_PAIR(2));
-            else if (field[i][j] == '^')
-                attron(COLOR_PAIR(3));
-            else if (field[i][j] == '+')
-                attron(COLOR_PAIR(4));
-            else if (field[i][j] == '>')
-                attron(COLOR_PAIR(5));
-            else if (field[i][j] == '<')
-                attron(COLOR_PAIR(6));
-            else if (field[i][j] == '&')
-                attron(COLOR_PAIR(7));
+            
             printw(" %c ", field[i][j]);
-            attroff(COLOR_PAIR(1) | COLOR_PAIR(2) | COLOR_PAIR(3) | COLOR_PAIR(4) | COLOR_PAIR(5) | COLOR_PAIR(6) | COLOR_PAIR(7));
         }
         printw("|\n");
     }
@@ -233,13 +206,12 @@ bool check(const int rows, const int columns, char field[rows][columns])
 void ball_sort_puzzle()
 {
     const int rows = 4;
-    const int columns = 12;
+    const int columns = 9;
     char field[rows][columns];
     generator(rows, columns, field);
     initscr();
     noecho();
     cbreak();
-
     while (!check(rows, columns, field))
     {
         game_field(rows, columns, field);
@@ -254,7 +226,6 @@ void ball_sort_puzzle()
         noecho();
         down_possible(rows, columns, field, x, y);
         refresh();
-
         napms(1000);
     }
     game_field(rows, columns, field);
@@ -266,6 +237,5 @@ void ball_sort_puzzle()
 int main()
 {
     ball_sort_puzzle();
-
     return 0;
 }
